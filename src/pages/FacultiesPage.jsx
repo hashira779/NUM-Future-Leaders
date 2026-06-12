@@ -23,124 +23,44 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import AnimatedSection from '../components/AnimatedSection';
 import SectionHeader from '../components/SectionHeader';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
-const faculties = [
+const facultyDefs = [
   {
     id: 'digital',
-    name: 'Faculty of Digital Economy',
-    tagline: "Powering Cambodia's Digital Future",
     icon: Cpu,
     accent: 'from-blue-500 to-cyan-400',
-    description: "NUM's flagship innovation faculty builds practical technology, finance, data, and digital economy skills for the next generation of leaders.",
     programs: [
-      {
-        name: 'BSc FinTech',
-        icon: TrendingUp,
-        duration: '4 years',
-        language: 'English',
-        description: 'Study blockchain, digital payments, cryptocurrency, financial innovation, and applied fintech projects.',
-      },
-      {
-        name: 'BSc Digital Economy',
-        icon: Globe,
-        duration: '4 years',
-        language: 'English',
-        description: 'Explore how digital platforms, data, and technology reshape markets, organizations, and public systems.',
-      },
-      {
-        name: 'BSc Computer Science',
-        icon: Binary,
-        duration: '4 years',
-        language: 'English',
-        description: 'Build software engineering, algorithms, data science, and AI foundations through practical coursework.',
-      },
-      {
-        name: 'BSc Smart City Planning',
-        icon: Building2,
-        duration: '4 years',
-        language: 'English',
-        description: 'Design smarter urban systems with IoT, GIS mapping, analytics, and sustainable city planning.',
-      },
+      { key: 'fintech', icon: TrendingUp, durationKey: 'years4', languageKey: 'english' },
+      { key: 'digitalEconomy', icon: Globe, durationKey: 'years4', languageKey: 'english' },
+      { key: 'computerScience', icon: Binary, durationKey: 'years4', languageKey: 'english' },
+      { key: 'smartCity', icon: Building2, durationKey: 'years4', languageKey: 'english' },
     ],
   },
   {
     id: 'business',
-    name: 'Business, Finance & Law',
-    tagline: 'Legacy Strengths, Modern Edge',
     icon: Briefcase,
     accent: 'from-gold-500 to-amber-300',
-    description: "NUM's core business and law programs prepare students for leadership in commerce, banking, accounting, management, and legal practice.",
     programs: [
-      {
-        name: 'BBA Finance & Banking',
-        icon: BarChart3,
-        duration: '4 years',
-        language: 'Khmer / English',
-        description: 'Develop financial analysis, investment, banking operations, and corporate finance capability.',
-      },
-      {
-        name: 'BBA Management',
-        icon: Users,
-        duration: '4 years',
-        language: 'Khmer / English',
-        description: 'Build leadership, operations, strategy, and entrepreneurship skills for modern organizations.',
-      },
-      {
-        name: 'Bachelor of Business Law',
-        icon: Scale,
-        duration: '4 years',
-        language: 'Khmer / English',
-        description: 'Study commercial law, intellectual property, trade rules, contracts, and governance.',
-      },
-      {
-        name: 'BBA Accounting',
-        icon: BookOpen,
-        duration: '4 years',
-        language: 'Khmer / English',
-        description: 'Prepare for accounting, auditing, taxation, reporting, and professional certification pathways.',
-      },
+      { key: 'finance', icon: BarChart3, durationKey: 'years4', languageKey: 'khmerEnglish' },
+      { key: 'management', icon: Users, durationKey: 'years4', languageKey: 'khmerEnglish' },
+      { key: 'law', icon: Scale, durationKey: 'years4', languageKey: 'khmerEnglish' },
+      { key: 'accounting', icon: BookOpen, durationKey: 'years4', languageKey: 'khmerEnglish' },
     ],
   },
   {
     id: 'policy',
-    name: 'School of Public Policy',
-    tagline: "Shaping Tomorrow's Policy Leaders",
     icon: Landmark,
     accent: 'from-emerald-400 to-blue-400',
-    description: 'The School of Public Policy develops governance, diplomacy, research, and policy talent for Cambodia and Southeast Asia.',
     programs: [
-      {
-        name: 'Master of Public Policy',
-        icon: Landmark,
-        duration: '2 years',
-        language: 'English',
-        description: 'Advanced study in policy analysis, governance, public administration, and development frameworks.',
-      },
-      {
-        name: 'MSc Digital Economy',
-        icon: CircuitBoard,
-        duration: '2 years',
-        language: 'English',
-        description: 'Research digital governance, data-driven decisions, platform regulation, and economic transformation.',
-      },
-      {
-        name: 'BA International Relations',
-        icon: Network,
-        duration: '4 years',
-        language: 'English',
-        description: "Study diplomacy, international organizations, security, and Cambodia's role in global affairs.",
-      },
-      {
-        name: 'Master of Laws',
-        icon: Scale,
-        duration: '2 years',
-        language: 'English',
-        description: 'Specialize in international law, trade law, and legal frameworks for cross-border commerce.',
-      },
+      { key: 'mpp', icon: Landmark, durationKey: 'years2', languageKey: 'english' },
+      { key: 'mscDigital', icon: CircuitBoard, durationKey: 'years2', languageKey: 'english' },
+      { key: 'relations', icon: Network, durationKey: 'years4', languageKey: 'english' },
+      { key: 'llm', icon: Scale, durationKey: 'years2', languageKey: 'english' },
     ],
   },
 ];
@@ -155,26 +75,21 @@ const partners = [
 ];
 
 const researchCards = [
-  {
-    icon: Server,
-    title: 'Digital Governance Lab',
-    description: 'AI-assisted policy tools, open data systems, and modern public-service research for Southeast Asia.',
-  },
-  {
-    icon: CircuitBoard,
-    title: 'Blockchain Research Center',
-    description: "Applied research in digital finance, DeFi, smart contracts, and Cambodia's growing fintech sector.",
-  },
-  {
-    icon: Award,
-    title: 'Student Innovation Awards',
-    description: 'Annual student project showcases with mentoring, funding pathways, and industry feedback.',
-  },
+  { key: 'governance', icon: Server },
+  { key: 'blockchain', icon: CircuitBoard },
+  { key: 'awards', icon: Award },
+];
+
+const dualCards = [
+  { key: 'num', icon: GraduationCap },
+  { key: 'transfer', icon: ArrowRight },
+  { key: 'abroad', icon: Globe },
 ];
 
 export default function FacultiesPage() {
   const [activeTab, setActiveTab] = useState('digital');
-  const activeFaculty = faculties.find((faculty) => faculty.id === activeTab) || faculties[0];
+  const { t } = useTranslation();
+  const activeFaculty = facultyDefs.find((faculty) => faculty.id === activeTab) || facultyDefs[0];
   const ActiveIcon = activeFaculty.icon;
 
   return (
@@ -191,13 +106,13 @@ export default function FacultiesPage() {
           <AnimatedSection>
             <Badge variant="outline" className="mb-7 gap-2 rounded-full border-white/20 bg-white/10 px-4 py-1.5 text-gold-200">
               <GraduationCap className="h-4 w-4" />
-              Academic Excellence
+              {t('faculties.hero.badge')}
             </Badge>
             <h1 className="max-w-4xl font-heading text-4xl font-extrabold leading-tight md:text-6xl">
-              Faculties and programs built for modern careers.
+              {t('faculties.hero.title')}
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-100">
-              Explore technology, business, finance, law, governance, and global pathways designed for students who want practical momentum.
+              {t('faculties.hero.description')}
             </p>
           </AnimatedSection>
         </div>
@@ -206,7 +121,7 @@ export default function FacultiesPage() {
       <section className="bg-white py-20 md:py-28" id="faculty-tabs">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="mb-10 flex flex-wrap justify-center gap-3">
-            {faculties.map((faculty) => {
+            {facultyDefs.map((faculty) => {
               const Icon = faculty.icon;
               const isActive = activeTab === faculty.id;
               return (
@@ -221,7 +136,7 @@ export default function FacultiesPage() {
                   }`}
                 >
                   <Icon className="h-5 w-5" />
-                  <span>{faculty.name}</span>
+                  <span>{t(`faculties.tabs.${faculty.id}.name`)}</span>
                 </button>
               );
             })}
@@ -242,9 +157,15 @@ export default function FacultiesPage() {
                     <ActiveIcon className="h-8 w-8" />
                   </div>
                   <div>
-                    <p className="font-heading text-sm font-bold uppercase tracking-[0.2em] text-gold-300">{activeFaculty.tagline}</p>
-                    <h2 className="mt-2 font-heading text-3xl font-extrabold text-white">{activeFaculty.name}</h2>
-                    <p className="mt-4 max-w-4xl text-sm leading-7 text-blue-100">{activeFaculty.description}</p>
+                    <p className="font-heading text-sm font-bold uppercase tracking-[0.2em] text-gold-300">
+                      {t(`faculties.tabs.${activeFaculty.id}.tagline`)}
+                    </p>
+                    <h2 className="mt-2 font-heading text-3xl font-extrabold text-white">
+                      {t(`faculties.tabs.${activeFaculty.id}.name`)}
+                    </h2>
+                    <p className="mt-4 max-w-4xl text-sm leading-7 text-blue-100">
+                      {t(`faculties.tabs.${activeFaculty.id}.description`)}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -254,7 +175,7 @@ export default function FacultiesPage() {
                   const Icon = program.icon;
                   return (
                     <motion.article
-                      key={program.name}
+                      key={program.key}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.06, duration: 0.35 }}
@@ -266,20 +187,24 @@ export default function FacultiesPage() {
                           <Icon className="h-5 w-5" />
                         </div>
                         <div>
-                          <h3 className="font-heading text-lg font-bold text-slate-950">{program.name}</h3>
+                          <h3 className="font-heading text-lg font-bold text-slate-950">
+                            {t(`faculties.programs.${program.key}.name`)}
+                          </h3>
                           <div className="mt-2 flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-500">
                             <span className="flex items-center gap-1.5">
                               <Clock3 className="h-3.5 w-3.5" />
-                              {program.duration}
+                              {t(`faculties.programMeta.${program.durationKey}`)}
                             </span>
                             <span className="flex items-center gap-1.5">
                               <Languages className="h-3.5 w-3.5" />
-                              {program.language}
+                              {t(`faculties.programMeta.${program.languageKey}`)}
                             </span>
                           </div>
                         </div>
                       </div>
-                      <p className="text-sm leading-7 text-slate-600">{program.description}</p>
+                      <p className="text-sm leading-7 text-slate-600">
+                        {t(`faculties.programs.${program.key}.description`)}
+                      </p>
                     </motion.article>
                   );
                 })}
@@ -291,27 +216,19 @@ export default function FacultiesPage() {
 
       <section className="bg-slate-100 py-20 md:py-28" id="dual-degree">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <SectionHeader
-            subtitle="Global Pathways"
-            title="3+1 Dual Degree Framework"
-            description="Complete core study at NUM, then continue abroad with selected partner universities for international credentials."
-          />
+          <SectionHeader subtitle={t('faculties.dual.subtitle')} title={t('faculties.dual.title')} description={t('faculties.dual.description')} />
 
           <AnimatedSection>
             <div className="mx-auto mb-12 grid max-w-5xl grid-cols-1 gap-5 md:grid-cols-3">
-              {[
-                { icon: GraduationCap, title: '3 Years at NUM', text: 'Build strong foundations in Phnom Penh with international faculty and practical projects.' },
-                { icon: ArrowRight, title: 'Guided Transfer', text: 'Prepare documentation, academic planning, and partner-university readiness with support.' },
-                { icon: Globe, title: '1 Year Abroad', text: 'Complete the final stage overseas and graduate with broader regional or global exposure.' },
-              ].map((item) => {
+              {dualCards.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.title} className="rounded-lg border border-slate-200 bg-white p-7 text-center shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
+                  <div key={item.key} className="rounded-lg border border-slate-200 bg-white p-7 text-center shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
                     <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50 text-blue-700">
                       <Icon className="h-6 w-6" />
                     </div>
-                    <h3 className="font-heading text-lg font-bold text-slate-950">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.text}</p>
+                    <h3 className="font-heading text-lg font-bold text-slate-950">{t(`faculties.dual.cards.${item.key}.title`)}</h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">{t(`faculties.dual.cards.${item.key}.text`)}</p>
                   </div>
                 );
               })}
@@ -334,21 +251,17 @@ export default function FacultiesPage() {
 
       <section className="bg-white py-20 md:py-28" id="research">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <SectionHeader
-            subtitle="Research & Innovation"
-            title="Pushing Practical Ideas Forward"
-            description="Students and faculty work on digital governance, blockchain, public policy, and applied innovation projects."
-          />
+          <SectionHeader subtitle={t('faculties.research.subtitle')} title={t('faculties.research.title')} description={t('faculties.research.description')} />
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {researchCards.map((card, index) => {
               const Icon = card.icon;
               return (
-                <AnimatedSection key={card.title} delay={index * 0.08}>
+                <AnimatedSection key={card.key} delay={index * 0.08}>
                   <motion.div whileHover={{ y: -8 }} className="h-full rounded-lg border border-slate-200 bg-white p-7 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
                     <Icon className="mb-5 h-7 w-7 text-blue-700" />
-                    <h3 className="font-heading text-lg font-bold text-slate-950">{card.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">{card.description}</p>
+                    <h3 className="font-heading text-lg font-bold text-slate-950">{t(`faculties.research.${card.key}.title`)}</h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">{t(`faculties.research.${card.key}.description`)}</p>
                   </motion.div>
                 </AnimatedSection>
               );
@@ -359,7 +272,7 @@ export default function FacultiesPage() {
             <div className="mt-10 flex justify-center">
               <Button asChild size="lg" className="h-12 gap-2 bg-blue-700 px-8 font-bold text-white hover:bg-blue-800">
                 <Link to="/admissions">
-                  View Admission Requirements
+                  {t('common.viewAdmissionRequirements')}
                   <ChevronRight className="h-4 w-4" />
                 </Link>
               </Button>

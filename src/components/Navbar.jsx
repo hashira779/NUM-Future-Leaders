@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronRight, Menu, X } from 'lucide-react';
+import { ChevronRight, Languages, Menu, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const navLinks = [
-  { label: 'Home', path: '/' },
-  { label: 'Faculties', path: '/faculties' },
-  { label: 'Admissions', path: '/admissions' },
+  { labelKey: 'nav.home', path: '/' },
+  { labelKey: 'nav.faculties', path: '/faculties' },
+  { labelKey: 'nav.admissions', path: '/admissions' },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 18);
@@ -25,15 +27,19 @@ export default function Navbar() {
   const headerClass = scrolled || !isHero
     ? 'bg-white/92 text-slate-950 shadow-[0_14px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl'
     : 'bg-transparent text-white';
+  const inactiveNavClass = isHero ? 'text-blue-100 hover:text-white' : 'text-slate-600 hover:text-blue-800';
+  const activeNavClass = isHero ? 'text-white' : 'text-blue-800';
+  const currentLanguage = i18n.resolvedLanguage || i18n.language || 'en';
+  const toggleLanguage = () => i18n.changeLanguage(currentLanguage === 'km' ? 'en' : 'km');
 
   return (
     <>
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${headerClass}`}>
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between md:h-20">
-            <Link to="/" className="group flex items-center gap-3" id="nav-logo">
+          <div className="flex h-16 items-center justify-between gap-4 md:h-20">
+            <Link to="/" className="group flex min-w-0 items-center gap-3" id="nav-logo">
               <span
-                className={`flex h-11 w-11 items-center justify-center rounded-lg p-1 transition-all duration-300 md:h-12 md:w-12 ${
+                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg p-1 transition-all duration-300 md:h-12 md:w-12 ${
                   isHero
                     ? 'bg-white shadow-lg shadow-black/15'
                     : 'bg-white shadow-md shadow-blue-900/15 ring-1 ring-slate-200'
@@ -41,15 +47,15 @@ export default function Navbar() {
               >
                 <img src="/images/num-logo-512.png" alt="NUM logo" className="h-full w-full object-contain" />
               </span>
-              <span className="leading-tight">
+              <span className="min-w-0 leading-tight">
                 <span className={`block font-heading text-lg font-bold ${isHero ? 'text-white' : 'text-blue-800'}`}>
                   NUM
                 </span>
                 <span className={`block whitespace-nowrap text-[8px] font-bold uppercase tracking-[0.08em] md:text-[9px] ${isHero ? 'text-blue-100' : 'text-slate-600'}`}>
-                  NATIONAL UNIVERSITY OF MANAGEMENT
+                  {t('brand.english')}
                 </span>
                 <span className={`block whitespace-nowrap text-[10px] font-medium ${isHero ? 'text-blue-100' : 'text-slate-500'}`}>
-                  សាកលវិទ្យាល័យជាតិគ្រប់គ្រង
+                  {t('brand.khmer')}
                 </span>
               </span>
             </Link>
@@ -62,13 +68,9 @@ export default function Navbar() {
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`relative rounded-lg px-4 py-2 text-sm font-semibold transition-colors ${
-                      isActive
-                        ? isHero ? 'text-white' : 'text-blue-800'
-                        : isHero ? 'text-blue-100 hover:text-white' : 'text-slate-600 hover:text-blue-800'
-                    }`}
+                    className={`relative rounded-lg px-4 py-2 text-sm font-semibold transition-colors ${isActive ? activeNavClass : inactiveNavClass}`}
                   >
-                    {link.label}
+                    {t(link.labelKey)}
                     {isActive && (
                       <motion.span
                         layoutId="nav-underline"
@@ -79,34 +81,64 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+
+              <button
+                type="button"
+                onClick={toggleLanguage}
+                className={`ml-2 inline-flex h-10 items-center gap-2 rounded-lg border px-3 text-sm font-bold transition ${
+                  isHero
+                    ? 'border-white/25 bg-white/10 text-white hover:bg-white/15'
+                    : 'border-slate-200 bg-white text-blue-800 hover:border-blue-200 hover:bg-blue-50'
+                }`}
+                aria-label={t('language.switchTo')}
+              >
+                <Languages className="h-4 w-4" />
+                {t('language.next')}
+              </button>
+
               <a
                 href="https://numregister.com"
                 target="_blank"
                 rel="noopener"
-                className={`ml-4 inline-flex h-11 items-center justify-center gap-1 rounded-lg px-5 text-sm font-heading font-bold transition-all duration-300 ${
+                className={`ml-3 inline-flex h-11 items-center justify-center gap-1 rounded-lg px-5 text-sm font-heading font-bold transition-all duration-300 ${
                   isHero
                     ? 'bg-accent text-blue-950 shadow-lg shadow-black/20 hover:-translate-y-0.5 hover:bg-gold-400'
                     : 'bg-blue-700 text-white shadow-md shadow-blue-900/15 hover:-translate-y-0.5 hover:bg-blue-800'
                 }`}
                 id="nav-apply-btn"
               >
-                Apply for 2026
+                {t('nav.apply')}
                 <ChevronRight className="h-4 w-4" />
               </a>
             </nav>
 
-            <button
-              type="button"
-              onClick={() => setMobileOpen((open) => !open)}
-              className={`rounded-lg p-2 transition-colors md:hidden ${
-                isHero ? 'text-white hover:bg-white/10' : 'text-slate-700 hover:bg-slate-100'
-              }`}
-              aria-label="Toggle menu"
-              aria-expanded={mobileOpen}
-              id="nav-mobile-toggle"
-            >
-              {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
+            <div className="flex items-center gap-2 md:hidden">
+              <button
+                type="button"
+                onClick={toggleLanguage}
+                className={`inline-flex h-10 items-center gap-1.5 rounded-lg border px-3 text-sm font-bold transition ${
+                  isHero
+                    ? 'border-white/25 bg-white/10 text-white'
+                    : 'border-slate-200 bg-white text-blue-800'
+                }`}
+                aria-label={t('language.switchTo')}
+              >
+                <Languages className="h-4 w-4" />
+                {t('language.next')}
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileOpen((open) => !open)}
+                className={`rounded-lg p-2 transition-colors ${
+                  isHero ? 'text-white hover:bg-white/10' : 'text-slate-700 hover:bg-slate-100'
+                }`}
+                aria-label={t('nav.toggle')}
+                aria-expanded={mobileOpen}
+                id="nav-mobile-toggle"
+              >
+                {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -137,15 +169,15 @@ export default function Navbar() {
                   </span>
                   <div>
                     <div className="font-heading text-lg font-bold text-blue-800">NUM</div>
-                    <div className="text-[10px] font-bold uppercase tracking-[0.08em] text-slate-600">NATIONAL UNIVERSITY OF MANAGEMENT</div>
-                    <div className="text-xs font-medium text-slate-500">សាកលវិទ្យាល័យជាតិគ្រប់គ្រង</div>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.08em] text-slate-600">{t('brand.english')}</div>
+                    <div className="text-xs font-medium text-slate-500">{t('brand.khmer')}</div>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setMobileOpen(false)}
                   className="rounded-lg p-2 text-slate-600 hover:bg-slate-100"
-                  aria-label="Close menu"
+                  aria-label={t('nav.close')}
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -164,7 +196,7 @@ export default function Navbar() {
                         isActive ? 'bg-blue-50 text-blue-800' : 'text-slate-700 hover:bg-slate-50'
                       }`}
                     >
-                      {link.label}
+                      {t(link.labelKey)}
                       <ChevronRight className="h-4 w-4 text-slate-400" />
                     </Link>
                   );
@@ -178,7 +210,7 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className="mt-6 flex h-12 items-center justify-center gap-2 rounded-lg bg-blue-700 px-5 font-heading text-sm font-bold text-white shadow-lg shadow-blue-900/15 hover:bg-blue-800"
               >
-                Apply for 2026
+                {t('nav.apply')}
                 <ChevronRight className="h-4 w-4" />
               </a>
             </motion.aside>

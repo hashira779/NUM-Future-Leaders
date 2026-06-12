@@ -1,20 +1,21 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Globe, Instagram, Linkedin, Mail, MapPin, Phone, Send } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const quickLinks = [
-  { label: 'Academic Programs', href: '/faculties' },
-  { label: 'Admissions', href: '/admissions' },
-  { label: 'Library', href: 'https://www.librarynum.com', external: true },
-  { label: 'Telegram', href: 'https://t.me/numtelegram', external: true },
+  { labelKey: 'footer.academicPrograms', href: '/faculties' },
+  { labelKey: 'footer.admissions', href: '/admissions' },
+  { labelKey: 'footer.library', href: 'https://www.librarynum.com', external: true },
+  { labelKey: 'footer.telegram', href: 'https://t.me/numtelegram', external: true },
 ];
 
 const faculties = [
-  'Faculty of Digital Economy',
-  'Faculty of Business',
-  'Faculty of Law',
-  'School of Public Policy',
-  'Faculty of Economics',
-  'Faculty of Information Technology',
+  'footer.facultyList.digital',
+  'footer.facultyList.business',
+  'footer.facultyList.law',
+  'footer.facultyList.policy',
+  'footer.facultyList.economics',
+  'footer.facultyList.information',
 ];
 
 const socialLinks = [
@@ -26,6 +27,8 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-slate-950 text-white" id="site-footer">
       <div className="container mx-auto px-4 py-16 md:px-6 lg:px-8">
@@ -37,12 +40,12 @@ export default function Footer() {
               </span>
               <span>
                 <span className="block font-heading text-lg font-bold">NUM</span>
-                <span className="block text-[10px] font-bold uppercase tracking-[0.08em] text-blue-100">NATIONAL UNIVERSITY OF MANAGEMENT</span>
-                <span className="block text-xs font-medium text-blue-200">សាកលវិទ្យាល័យជាតិគ្រប់គ្រង</span>
+                <span className="block text-[10px] font-bold uppercase tracking-[0.08em] text-blue-100">{t('brand.english')}</span>
+                <span className="block text-xs font-medium text-blue-200">{t('brand.khmer')}</span>
               </span>
             </Link>
             <p className="max-w-sm text-sm leading-7 text-blue-100">
-              Digital marketing campaign website promoting NUM's programs, student experience, scholarships, and admissions pathway.
+              {t('footer.description')}
             </p>
             <div className="mt-6 flex items-center gap-3">
               {socialLinks.map(({ icon: Icon, href, label }) => (
@@ -61,17 +64,17 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-5 font-heading text-base font-bold">Quick Links</h3>
+            <h3 className="mb-5 font-heading text-base font-bold">{t('footer.quickLinks')}</h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
-                <li key={link.label}>
+                <li key={link.labelKey}>
                   {link.external ? (
                     <a href={link.href} target="_blank" rel="noopener" className="text-sm text-blue-100 transition hover:text-gold-300">
-                      {link.label}
+                      {t(link.labelKey)}
                     </a>
                   ) : (
                     <Link to={link.href} className="text-sm text-blue-100 transition hover:text-gold-300">
-                      {link.label}
+                      {t(link.labelKey)}
                     </Link>
                   )}
                 </li>
@@ -80,12 +83,12 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-5 font-heading text-base font-bold">Faculties</h3>
+            <h3 className="mb-5 font-heading text-base font-bold">{t('footer.faculties')}</h3>
             <ul className="space-y-3">
-              {faculties.map((faculty) => (
-                <li key={faculty}>
+              {faculties.map((facultyKey) => (
+                <li key={facultyKey}>
                   <Link to="/faculties" className="text-sm text-blue-100 transition hover:text-gold-300">
-                    {faculty}
+                    {t(facultyKey)}
                   </Link>
                 </li>
               ))}
@@ -93,12 +96,12 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-5 font-heading text-base font-bold">Contact</h3>
+            <h3 className="mb-5 font-heading text-base font-bold">{t('footer.contact')}</h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold-300" />
                 <span className="text-sm leading-7 text-blue-100">
-                  St.96 Christopher Howes, Khan Daun Penh, Phnom Penh 12000, Cambodia
+                  {t('footer.address')}
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -121,11 +124,11 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-5 md:flex-row md:px-6 lg:px-8">
           <p className="text-xs text-blue-200">
-            &copy; {new Date().getFullYear()} NATIONAL UNIVERSITY OF MANAGEMENT. All rights reserved.
+            &copy; {new Date().getFullYear()} {t('brand.english')}. {t('footer.rights')}
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-xs text-blue-200 transition hover:text-gold-300">Privacy Policy</a>
-            <a href="#" className="text-xs text-blue-200 transition hover:text-gold-300">Terms of Service</a>
+            <a href="#" className="text-xs text-blue-200 transition hover:text-gold-300">{t('footer.privacy')}</a>
+            <a href="#" className="text-xs text-blue-200 transition hover:text-gold-300">{t('footer.terms')}</a>
           </div>
         </div>
       </div>
